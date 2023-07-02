@@ -1,19 +1,20 @@
 import useSWR from "swr";
 import { BiArrowFromBottom, BiArrowFromTop } from "react-icons/bi";
+import type { Coordinates } from "@/pages";
+import axios from "axios";
 
 const fetcher = async (url: string) => {
   try {
-    const response = await fetch(url);
-    return await response.json();
+    const { data } = await axios.get(url);
+    return data;
   } catch (e: any) {
     console.error(e.message);
   }
 };
 
-const base = "https://api.openweathermap.org/data/2.5/weather";
-const apiEndPoint = `${base}?lat=34&lon=-118&units=metric&appid=${process.env.NEXT_PUBLIC_API_KEY}`;
-
-export default function TodayWeather() {
+export default function TodayWeather({ name, lat, lon, state }: Coordinates) {
+  const base = "https://api.openweathermap.org/data/2.5/weather";
+  const apiEndPoint = `${base}?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.NEXT_PUBLIC_API_KEY}`;
   const { data, error, isLoading } = useSWR(apiEndPoint, fetcher);
 
   if (error) return <div className="text-xl">Fail to load</div>;
@@ -97,9 +98,9 @@ export default function TodayWeather() {
   );
 
   return (
-    <>
+    <div className="bg-slate-400 rounded-xl mx-auto">
       <h2 className="text-xl font-bold p-4">
-        Weather Today in New York City, NY
+        Weather Today in {name}, {state}
       </h2>
       <div className="flex justify-between mx-9 mb-4">
         <div className="flex flex-col">
@@ -158,6 +159,6 @@ export default function TodayWeather() {
           <div>{data.clouds.all}%</div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
