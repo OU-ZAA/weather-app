@@ -1,4 +1,5 @@
 import TodayWeather from "@/components/TodayWeather";
+import axios from "axios";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -19,10 +20,10 @@ const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 const baseUrl = "http://api.openweathermap.org/geo/1.0/direct";
 
 const getLocation = async (cityName: string) => {
-  const data: Coordinates[] = await fetch(
+  const { data } = await axios.get(
     `${baseUrl}?q=%${cityName}&limit=1&appid=${apiKey}`
-  ).then((res) => res.json());
-  return data;
+  );
+  return data as Coordinates[];
 };
 
 export default function Home() {
@@ -32,7 +33,6 @@ export default function Home() {
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     const data = await getLocation(values.cityName);
     setCoordinates(data[0]);
-    console.log("coords:", coordinates);
   };
 
   return (
