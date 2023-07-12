@@ -1,10 +1,11 @@
 import HourlyForecast from "@/components/HourlyForecast";
 import TodayWeather from "@/components/TodayWeather";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { HiOutlineSearch } from "react-icons/hi";
 import { MdLocationOn } from "react-icons/md";
+import { useGeolocated } from "react-geolocated";
 
 interface FormValues {
   cityName: string;
@@ -31,6 +32,24 @@ async function getLocation(cityName: string) {
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates>();
+  console.log("coordinates:", coordinates);
+
+  const { coords } = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: false,
+    },
+    isOptimisticGeolocationEnabled: true,
+  });
+
+  useEffect(() => {
+    async function getLocation() {
+      const { data } = await axios.get(
+        `http://api.openweathermap.org/geo/1.0/reverse?lat=${coords?.latitude}&lon=${coords?.longitude}&appid=${process.env.NEXT_PUBLIC_API_KEY}`
+      );
+      setCoordinates(data[0]);
+    }
+    getLocation();
+  }, []);
 
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
