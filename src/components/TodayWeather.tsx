@@ -1,16 +1,7 @@
 import useSWR from "swr";
 import { BiArrowFromBottom, BiArrowFromTop } from "react-icons/bi";
 import type { Coordinates } from "@/pages";
-import axios from "axios";
-
-const fetcher = async (url: string) => {
-  try {
-    const { data } = await axios.get(url);
-    return data;
-  } catch (e: any) {
-    console.error(e.message);
-  }
-};
+import { fetcher } from "@/utils/fetcher";
 
 export default function TodayWeather({ name, lat, lon, state }: Coordinates) {
   const base = "https://api.openweathermap.org/data/2.5/weather";
