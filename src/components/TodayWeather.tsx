@@ -16,6 +16,23 @@ const getTime = (timeStamp: number) => {
   }`;
 };
 
+const WeatherIcons: any = {
+  "01d": "/icons/sunny.svg",
+  "01n": "/icons/night.svg",
+  "02d": "/icons/day.svg",
+  "02n": "/icons/cloudy-night.svg",
+  "03d": "/icons/cloudy.svg",
+  "03n": "/icons/cloudy.svg",
+  "04d": "/icons/perfect-day.svg",
+  "04n": "/icons/cloudy-night.svg",
+  "09d": "/icons/rain.svg",
+  "09n": "/icons/rain-night.svg",
+  "10d": "/icons/rain.svg",
+  "10n": "/icons/rain-night.svg",
+  "11d": "/icons/storm.svg",
+  "11n": "/icons/storm.svg",
+};
+
 export default function TodayWeather({
   name,
   lat,
@@ -31,8 +48,8 @@ export default function TodayWeather({
   if (isLoading) return <div className="text-xl">Loading...</div>;
 
   return (
-    <div className="mx-auto my-8">
-      <div className="bg-white p-4 rounded-lg">
+    <div className="mx-auto my-8 max-w-7xl lg:flex lg:gap-4">
+      <div className="bg-white p-4 rounded-lg basis-1/2">
         <h2 className="flex items-center gap-2 text-xl font-bold">
           <MdLocationOn className="h-6 w-6" />
           {name}
@@ -40,7 +57,9 @@ export default function TodayWeather({
         <p className="mt-2">Thu, July 20 19:11</p>
         <div className="flex justify-between mt-2">
           <div className="flex gap-2">
-            <div className="w-12 h-12 bg-slate-100"></div>
+            <div className="bg-slate-100 p-2 rounded-xl">
+              <img src={WeatherIcons[data.weather[0].icon]} />
+            </div>
             <p className="text-6xl font-bold">{Math.floor(data.main.temp)}°</p>
           </div>
           <div className="text-slate-600 tracking-tighter text-sm text-end">
@@ -54,7 +73,7 @@ export default function TodayWeather({
         </div>
       </div>
 
-      <div className="mt-4 bg-white rounded-lg p-4">
+      <div className="mt-4 lg:mt-0 bg-white rounded-lg p-4 basis-1/2 ">
         <div className="flex items-center justify-between py-2 border-b-2 border-slate-100">
           <div className="flex items-center gap-4">
             <FiSunrise />
@@ -74,7 +93,7 @@ export default function TodayWeather({
             <FiWind />
             <span className="opacity-70">Wind</span>
           </div>
-          <p>{Math.floor(data.wind.speed * 3.6)} km/h</p>
+          <p>{Math.floor(data.wind.speed)} km/h</p>
         </div>
         <div className="flex items-center justify-between py-2 border-b-2 border-slate-100">
           <div className="flex items-center gap-4">
