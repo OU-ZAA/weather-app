@@ -37,13 +37,7 @@ const WeatherIcons: any = {
   "50n": "icons/mist.svg",
 };
 
-export default function TodayWeather({
-  name,
-  lat,
-  lon,
-  state,
-  country,
-}: Coordinates) {
+export default function TodayWeather({ name, lat, lon }: Coordinates) {
   const base = "https://api.openweathermap.org/data/2.5/weather";
   const apiEndPoint = `${base}?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.NEXT_PUBLIC_API_KEY}`;
   const { data, error, isLoading } = useSWR(apiEndPoint, fetcher);
@@ -83,14 +77,14 @@ export default function TodayWeather({
             <FiSunrise />
             <span className="opacity-70">Sunrise</span>
           </div>
-          <p>{getTime(data.sys.sunrise)}</p>
+          <p>{getTime(data.sys.sunrise + data.timezone)}</p>
         </div>
         <div className="flex items-center justify-between py-2 border-b-2 border-slate-100">
           <div className="flex items-center gap-4">
             <FiSunset />
             <span className="opacity-70">Sunset</span>
           </div>
-          <p>{getTime(data.sys.sunset)}</p>
+          <p>{getTime(data.sys.sunset + data.timezone)}</p>
         </div>
         <div className="flex items-center justify-between py-2 border-b-2 border-slate-100">
           <div className="flex items-center gap-4">
