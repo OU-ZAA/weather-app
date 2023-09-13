@@ -10,7 +10,7 @@ interface FormValues {
 
 async function getLocationByCity(cityName: string) {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-  const baseUrl = "http://api.openweathermap.org/geo/1.0/direct";
+  const baseUrl = "https://api.openweathermap.org/geo/1.0/direct";
 
   const { data } = await axios.get(
     `${baseUrl}?q=${cityName}&limit=1&appid=${apiKey}`
