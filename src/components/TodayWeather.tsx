@@ -5,6 +5,7 @@ import { WiHumidity } from "react-icons/wi";
 import { FiWind, FiEye, FiSunrise, FiSunset } from "react-icons/fi";
 import type { Coordinates } from "@/pages";
 import { fetcher } from "@/utils/fetcher";
+import Image from "next/image";
 
 const getTime = (timeStamp: number) => {
   return `${
@@ -56,7 +57,12 @@ export default function TodayWeather({ name, lat, lon }: Coordinates) {
         <div className="flex justify-between mt-2">
           <div className="flex gap-2">
             <div className="bg-slate-100 p-2 rounded-xl">
-              <img src={WeatherIcons[data.weather[0].icon]} />
+              <Image
+                src={WeatherIcons[data.weather[0].icon]}
+                alt="weather icon"
+                width={200}
+                height={200}
+              />
             </div>
             <p className="text-6xl font-bold">{Math.floor(data.main.temp)}°</p>
           </div>

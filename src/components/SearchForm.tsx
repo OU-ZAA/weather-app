@@ -13,7 +13,7 @@ async function getLocationByCity(cityName: string) {
   const baseUrl = "http://api.openweathermap.org/geo/1.0/direct";
 
   const { data } = await axios.get(
-    `${baseUrl}?q=%${cityName}&limit=1&appid=${apiKey}`
+    `${baseUrl}?q=${cityName}&limit=1&appid=${apiKey}`
   );
   return data as Coordinates[];
 }
